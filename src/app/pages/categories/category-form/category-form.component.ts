@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-category-form',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryFormComponent implements OnInit {
 
-  constructor() { }
+  formGroup: FormGroup;
+
+  constructor(
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit() {
+    this.buildForm();
   }
 
+  save(): void {
+    console.log(this.formGroup.value);
+  }
+
+  private buildForm(): void {
+    this.formGroup = this.fb.group({
+      id: [null],
+      name: [null, [Validators.required, Validators.minLength(2)]]
+    })
+  }
 }
