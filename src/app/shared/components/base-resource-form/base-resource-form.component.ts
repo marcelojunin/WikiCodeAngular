@@ -83,6 +83,8 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   }
 
   protected actionForSuccess(resource: T): void {
+    //toastr.success('Solicitação processada com sucesso!');
+
     const baseComponentPath: string = this.activatedRoute.snapshot.parent.url[0].path;
 
     this.router.navigateByUrl(baseComponentPath, {skipLocationChange: true}).then(
@@ -91,6 +93,8 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   }
 
   protected actionForError(error: any) {
+    //toastr.error('Ocorreu um erro!');
+
     if (error.status === 422) {
       this.serverErrorMessages = JSON.parse(error._body).errors;
     } else {
