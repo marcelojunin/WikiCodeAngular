@@ -1,29 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CategoryService } from './../shared/category.service';
+import { Component, Injector } from '@angular/core';
+import {  Validators } from '@angular/forms';
+import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
+import { Category } from '../shared/category.model';
 
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.css']
 })
-export class CategoryFormComponent implements OnInit {
-
-  formGroup: FormGroup;
+export class CategoryFormComponent extends BaseResourceFormComponent<Category> {
 
   constructor(
-    private fb: FormBuilder
-  ) { }
-
-  ngOnInit() {
-    this.buildForm();
+    protected categoryService: CategoryService,
+    protected injector: Injector
+  ) { 
+    super(injector, new Category(), categoryService, Category.fromJson);
   }
 
-  save(): void {
-    console.log(this.formGroup.value);
-  }
-
-  private buildForm(): void {
-    this.formGroup = this.fb.group({
+  protected buildForm(): void {
+    this.formGroup = this.formBuilder.group({
       id: [null],
       name: [null, [Validators.required, Validators.minLength(2)]]
     })
