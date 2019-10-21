@@ -13,12 +13,13 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   protected activatedRoute: ActivatedRoute;
   protected router: Router;
   protected formBuilder: FormBuilder;
+  serverErrorMessages: string[] = null;
 
   constructor(
     protected injector: Injector,
     protected resource: T,
     protected resourceService: BaseResourceService<T>,
-    protected josnDataToResourceFn: (jsonData) => T
+    protected jsonDataToResourceFn: (jsonData) => T
   ) {
     this.activatedRoute = this.injector.get(ActivatedRoute);
     this.router = this.injector.get(Router);
@@ -62,7 +63,39 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   }
 
   protected createResource(): void {
-    console.log(this.formGroup.value);
+    const resource: T = this.jsonDataToResourceFn(this.formGroup);
+
+    this.resourceService.create(resource)
+      .subscribe(
+        response => this.actionForSuccess(response),
+        error => this.actionForError(error)
+      );
+  }
+
+  protected updateResource(): void {
+    const resource: T = this.jsonDataToResourceFn(this.formGroup);
+    const id = this.activatedRoute.queryParamMap['id'];
+    this.resourceService.update(resource, id)
+      .subscribe(
+        response => this.actionForSuccess(response),
+        error => this.actionForError(error)
+      );
+  }
+
+  protected actionForSuccess(resource: T): void {
+    const baseComponentPath: string = this.activatedRoute.snapshot.parent.url[0].path;
+
+    this.router.navigateByUrl(baseComponentPath, {skipLocationChange: true}).then(
+      () => this.router.navigate([baseComponentPath, resource.id, 'edit'])
+    );
+  }
+
+  protected actionForError(error: any) {
+    if (error.status === 422) {
+      this.serverErrorMessages = JSON.parse(error._body).errors;
+    } else {
+      this.serverErrorMessages = ['Falha na comunicacao com servidor.']
+    }
   }
 
   protected abstract buildForm(): void;
