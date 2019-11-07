@@ -102,5 +102,9 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
     }
   }
 
+  protected back(): void {
+    this.router.navigate([`./categories`]);
+  }
+
   protected abstract buildForm(): void;
 }
