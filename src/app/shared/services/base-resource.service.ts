@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { Injector } from '@angular/core';
 import { BaseResourceModel } from './../models/base-resource.model';
 import { HttpClient } from '@angular/common/http';
@@ -16,7 +17,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
   
   public getAll(): Observable<T[]> {
-    return this.http.get(this.apiPath)
+    return this.http.get(`${environment.apiUrl}${this.apiPath}`)
       .pipe(
         map(this.jsonDataToResources),
         catchError(this.handlerError)
@@ -24,7 +25,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   public getById(id: number): Observable<T> {
-    return this.http.get(`${this.apiPath}/${id}`)
+    return this.http.get(`${environment.apiUrl}${this.apiPath}/${id}`)
     .pipe(
       map(this.jsonDataToResources),
       catchError(this.handlerError)
@@ -32,7 +33,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   public create(resource: T): Observable<T> {
-    return this.http.post(this.apiPath, resource)
+    return this.http.post(`${environment.apiUrl}${this.apiPath}`, resource)
     .pipe(
       map(this.jsonDataToResources),
       catchError(this.handlerError)
@@ -40,7 +41,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   public update(resource: T, id: number): Observable<T> {
-    return this.http.put(`${this.apiPath}/${id}`, resource)
+    return this.http.put(`${environment.apiUrl}${this.apiPath}/${id}`, resource)
     .pipe(
       map(() => null),
       catchError(this.handlerError)
@@ -48,7 +49,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   public delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiPath}/${id}`).pipe(
+    return this.http.delete(`${environment.apiUrl}${this.apiPath}/${id}`).pipe(
       catchError(this.handlerError),
       map(() => null)
     );

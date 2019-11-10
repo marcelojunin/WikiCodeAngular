@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { CategoryService } from './../shared/category.service';
+import { Component, OnInit, Injector } from '@angular/core';
+import { BaseResourceListComponent } from 'src/app/shared/components/base-resource-list/base-resource-list.component';
+import { Category } from '../shared/category.model';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.css']
 })
-export class CategoryListComponent implements OnInit {
+export class CategoryListComponent extends BaseResourceListComponent<Category> {
 
-  constructor() { }
+  constructor(
+    protected categoryService: CategoryService,
+    protected injector: Injector
+  ) {
+    super(injector, new Category(), categoryService)
+   }
 
   ngOnInit() {
+    this.getAll();
   }
 
 }

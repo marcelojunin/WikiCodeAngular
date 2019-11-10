@@ -1,18 +1,20 @@
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { BaseResourceModel } from '../../models/base-resource.model';
 
 export abstract class BaseResourceListComponent<T extends BaseResourceModel> implements OnInit {
 
   protected resources: T[] = [];
   constructor(
+    protected injector: Injector,
+    protected resource: T,
     protected resourceService: BaseResourceService<T>
   ) { }
 
   ngOnInit() {
   }
 
-  protected loadAll(): void {
+  protected getAll(): void {
     this.resourceService.getAll()
       .subscribe(
         resp => this.resources = resp.sort((a, b) => b.id - a.id),
