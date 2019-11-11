@@ -27,7 +27,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   public getById(id: number): Observable<T> {
     return this.http.get(`${environment.apiUrl}${this.apiPath}/${id}`)
     .pipe(
-      map(this.jsonDataToResources),
+      map(this.jsonDataToResource),
       catchError(this.handlerError)
     );
   }

@@ -28,11 +28,13 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
 
   ngOnInit() {
     this.buildForm();
+    this.setCurrentAction();
+    this.loadResource();
   }
 
   ngAfterContentChecked () : void {
     
-    this.setCurrentAction();
+
   }
 
   public submitForm(): void {
@@ -51,9 +53,9 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
 
   protected loadResource(): void {
     if (this.currentAction === 'edit') {
-      this.activatedRoute.paramMap.pipe(
-        switchMap(param => this.resourceService.getById(+param.get('id')))
-      ).subscribe(resp => {
+      const id = this.activatedRoute.params['value'].id;
+      this.resourceService.getById(id)
+        .subscribe(resp => {
         this.resource = resp;
         this.formGroup.patchValue(resp);
       }, error => {
