@@ -41,6 +41,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   public update(resource: T, id: number): Observable<T> {
+    console.log(resource)
     return this.http.put(`${environment.apiUrl}${this.apiPath}/${id}`, resource)
     .pipe(
       map(() => null),
@@ -49,7 +50,8 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   public delete(id: number): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}${this.apiPath}/${id}`).pipe(
+    return this.http.delete(`${environment.apiUrl}${this.apiPath}/${id}`)
+    .pipe(
       catchError(this.handlerError),
       map(() => null)
     );

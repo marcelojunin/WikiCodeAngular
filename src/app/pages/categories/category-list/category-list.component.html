@@ -31,7 +31,7 @@
         <tr *ngFor="let resource of resources">
             <td>
                 <strong>{{resource.name}}</strong><br>
-                <small>etc etc etc</small>
+                <small>{{resource.description}}</small>
             </td>
             <td>
                 <a [routerLink]="[resource.id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>

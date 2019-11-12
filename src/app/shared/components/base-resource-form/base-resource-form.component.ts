@@ -4,6 +4,7 @@ import { AfterContentChecked, OnInit, Injector } from '@angular/core';
 import { BaseResourceModel } from '../../models/base-resource.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import toastr from 'toastr';
 
 export abstract class BaseResourceFormComponent<T extends BaseResourceModel> implements OnInit, AfterContentChecked  {
 
@@ -33,13 +34,16 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   }
 
   ngAfterContentChecked () : void {
-    
 
   }
 
   public submitForm(): void {
     if (this.currentAction === 'new') {
-      
+      this.createResource();
+    }
+
+    if (this.currentAction === 'edit') {
+      this.updateResource();
     }
   }
 
@@ -85,7 +89,7 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   }
 
   protected actionForSuccess(resource: T): void {
-    //toastr.success('Solicitação processada com sucesso!');
+    toastr.success('Solicitação processada com sucesso!');
 
     const baseComponentPath: string = this.activatedRoute.snapshot.parent.url[0].path;
 
