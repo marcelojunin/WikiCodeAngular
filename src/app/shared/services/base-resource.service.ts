@@ -41,7 +41,6 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   public update(resource: T, id: number): Observable<T> {
-    console.log(resource)
     return this.http.put(`${environment.apiUrl}${this.apiPath}/${id}`, resource)
     .pipe(
       map(() => null),

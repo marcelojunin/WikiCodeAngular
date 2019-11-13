@@ -69,7 +69,7 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   }
 
   protected createResource(): void {
-    const resource: T = this.jsonDataToResourceFn(this.formGroup);
+    const resource: T = this.jsonDataToResourceFn(this.formGroup.value);
 
     this.resourceService.create(resource)
       .subscribe(
@@ -79,7 +79,7 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   }
 
   protected updateResource(): void {
-    const resource: T = this.jsonDataToResourceFn(this.formGroup);
+    const resource: T = this.jsonDataToResourceFn(this.formGroup.value);
     const id = this.activatedRoute.queryParamMap['id'];
     this.resourceService.update(resource, id)
       .subscribe(
