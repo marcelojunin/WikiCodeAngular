@@ -23,11 +23,11 @@
 <p-table class="table table-houver" [value]="resources">
     <ng-template pTemplate="header" let-columns>
         <tr class="bg-primary text-light">
-            <th [pSortableColumn]="'name'">
+            <th [pSortableColumn]="'name'" class="custom-table">
                 Nome
                 <p-sortIcon [field]="'name'"></p-sortIcon>
             </th>
-            <th>Ações</th>
+            <th class="custom-table">Ações</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-resource let-columns="resources">

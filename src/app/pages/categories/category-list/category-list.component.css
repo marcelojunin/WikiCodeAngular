@@ -8,3 +8,8 @@
 .field-width {
     width: 100%;
 }
+
+.custom-table {
+    color: #ffffff !important;
+    background-color: #007ad9 !important;
+}
