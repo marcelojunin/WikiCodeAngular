@@ -20,15 +20,18 @@
     </div>
 </div>
 
-<table class="table table-houver">
-    <thead>
+<p-table class="table table-houver" [value]="resources">
+    <ng-template pTemplate="header" let-columns>
         <tr class="bg-primary text-light">
-            <th>Categorias</th>
+            <th [pSortableColumn]="'name'">
+                Nome
+                <p-sortIcon [field]="'name'"></p-sortIcon>
+            </th>
             <th>Ações</th>
         </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let resource of resources">
+    </ng-template>
+    <ng-template pTemplate="body" let-resource let-columns="resources">
+        <tr>
             <td>
                 <strong>{{resource.name}}</strong><br>
                 <small>{{resource.description}}</small>
@@ -38,5 +41,5 @@
                 <button (click)="alert('excluir')" class="btn btn-outline-danger btn-sm">Excluir</button>
             </td>
         </tr>
-    </tbody>
-</table>
+    </ng-template>
+</p-table>
