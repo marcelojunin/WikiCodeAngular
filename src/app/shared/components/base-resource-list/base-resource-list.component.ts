@@ -7,6 +7,9 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
 
   protected resources: T[] = [];
   protected page = 0;
+  protected rows = 10;
+  protected sortField = 'name';
+  protected sortOrder = 'ASC';
   protected totalElements = 0;
   protected lazyLoadEvent: LazyLoadEvent;
   protected isLoading: boolean;
@@ -28,19 +31,21 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
       );
   }
 
-  protected paginate(page: number) {
-    this.resourceService.paginate(page)
+  protected paginate(page: number, rows: number, sortField: string, sortOrder: string): void {
+    this.resourceService.paginate(page, rows, sortField, sortOrder)
       .subscribe(resp => {
         this.resources = resp.content;
         this.totalElements = resp.totalElements;
       });
   }
 
-  protected loadData(event: LazyLoadEvent) {
+  protected loadData(event: LazyLoadEvent): void {
     this.lazyLoadEvent = event;
     this.isLoading = true;
+    this.sortField = event.sortField;
+    this.sortOrder = this.getDirection(event.sortOrder);
     const currentPage = this.getCurrentPage(event.first, event.rows);
-    this.paginate(currentPage);
+    this.paginate(currentPage, event.rows, this.sortField, this.sortOrder);
   }
 
   protected delete(resource: T): void {
@@ -53,6 +58,10 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
 
   private getCurrentPage(first: number, rows: number): number {
     return first/rows + 1
+  }
+
+  private getDirection(sortOrder: number) {
+    return sortOrder === 1 ? 'ASC' : 'DESC';
   }
 
 }

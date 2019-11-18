@@ -34,7 +34,7 @@
 
     <ng-template pTemplate="header" let-columns>
         <tr class="bg-primary text-light">
-            <th [pSortableColumn]="'name'" class="custom-table">
+            <th [pSortableColumn]="'name'" pResizableColumn class="custom-table">
                 Nome
                 <p-sortIcon [field]="'name'"></p-sortIcon>
             </th>

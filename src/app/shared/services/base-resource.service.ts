@@ -25,8 +25,8 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
       );
   }
 
-  public paginate(page: number): Observable<Page> {
-    return this.http.get(`${environment.apiUrl}${this.apiPath}/paginate?page=${page}`)
+  public paginate(page: number, rows: number, sortField: string, sortOrder: string): Observable<Page> {
+    return this.http.get(`${environment.apiUrl}${this.apiPath}/paginate?page=${page}&linesPerPage=${rows}&orderBy=${sortField}&direction=${sortOrder}`)
       .pipe(
         map(this.jsonToPage),
         catchError(this.handlerError)

@@ -19,6 +19,6 @@ export class CategoryListComponent extends BaseResourceListComponent<Category> {
    }
 
   ngOnInit() {
-    this.paginate(this.page);
+    this.paginate(this.page, this.rows, this.sortField, this.sortOrder);
   }
 }
