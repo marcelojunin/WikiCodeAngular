@@ -1,3 +1,4 @@
+import { Page } from './../models/page.model';
 import { environment } from './../../../environments/environment';
 import { Injector } from '@angular/core';
 import { BaseResourceModel } from './../models/base-resource.model';
@@ -20,6 +21,14 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     return this.http.get(`${environment.apiUrl}${this.apiPath}`)
       .pipe(
         map(this.jsonDataToResources),
+        catchError(this.handlerError)
+      );
+  }
+
+  public paginate(page: number): Observable<Page> {
+    return this.http.get(`${environment.apiUrl}${this.apiPath}/paginate?page=${page}`)
+      .pipe(
+        map(this.jsonToPage),
         catchError(this.handlerError)
       );
   }
@@ -60,6 +69,10 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     const resources: T[] = [];
     jsonData.forEach(el => resources.push(el as T));
     return resources;
+  }
+
+  protected jsonToPage(jsonData: any): Page {
+    return Page.fromPage(jsonData);
   }
 
   protected jsonDataToResource(jsonData: any): T {

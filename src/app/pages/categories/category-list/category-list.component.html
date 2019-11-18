@@ -20,7 +20,18 @@
     </div>
 </div>
 
-<p-table class="table table-houver" [value]="resources">
+<p-table class="table table-houver" 
+    [value]="resources" 
+    [paginator]="true" 
+    [rows]="10" 
+    [totalRecords]="totalElements"
+    [first]="page" 
+    [rowsPerPageOptions]="[5,10,15,20,50]"
+    [lazy]="true"
+    [loading]="loading"
+    (onLazyLoad)="loadData($event)"  
+    >
+
     <ng-template pTemplate="header" let-columns>
         <tr class="bg-primary text-light">
             <th [pSortableColumn]="'name'" class="custom-table">
@@ -30,6 +41,7 @@
             <th class="custom-table">Ações</th>
         </tr>
     </ng-template>
+
     <ng-template pTemplate="body" let-resource let-columns="resources">
         <tr>
             <td>
@@ -42,4 +54,5 @@
             </td>
         </tr>
     </ng-template>
+
 </p-table>
